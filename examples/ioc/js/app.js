@@ -14,6 +14,10 @@ new Vue({
     '<div>By element:</div>' +
     '<some-view-by-element></some-view-by-element>',
 
+    inject: {
+       model: "some-model"
+    },
+
     components: {
 
         "some-model": {

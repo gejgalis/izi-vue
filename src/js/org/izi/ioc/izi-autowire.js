@@ -1,8 +1,5 @@
 function wire(target) {
     if (target.$options.inject) {
-        for (var key in target.$options.inject) {
-            target.$add(key, izi.inject(target.$options.inject[key]));
-        }
         target.$dispatch("izi:requestWire", target);
     } else {
         console.log("`inject` configuration not found on:", this);

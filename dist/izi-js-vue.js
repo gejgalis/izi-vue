@@ -41,13 +41,13 @@ Vue.component("izi-context", {
         }
 
         console.log("[izi] baking beans: ", beans);
-        this.context = context = izi.bakeBeans(beans);
+        this.context = izi.bakeBeans(beans);
 
-        this.$parent.$on("izi:requestWire", function (target) {
-            console.log("[izi] injecting:", target.$options.inject, "to:", target);
-            context.wire(target);
-            return false;
-        });
+        this.$parent.$on("izi:requestWire", this._onRequestWire);
+
+        if (this.$parent && this.$parent.$options && this.$parent.$options.inject) {
+            this._onRequestWire(this.$parent);
+        }
     },
 
     methods: {
@@ -58,15 +58,21 @@ Vue.component("izi-context", {
 
         wire: function () {
             return this.context.wire.apply(this.context, arguments);
+        },
+
+        _onRequestWire: function (target) {
+            for (var key in target.$options.inject) {
+                target.$add(key, izi.inject(target.$options.inject[key]));
+            }
+            console.log("[izi] injecting:", target.$options.inject, "to:", target);
+            this.wire(target);
+            return false;
         }
     }
 
 });
 function wire(target) {
     if (target.$options.inject) {
-        for (var key in target.$options.inject) {
-            target.$add(key, izi.inject(target.$options.inject[key]));
-        }
         target.$dispatch("izi:requestWire", target);
     } else {
         console.log("`inject` configuration not found on:", this);
