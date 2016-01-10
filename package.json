@@ -24,9 +24,9 @@
     "grunt-karma": "~0.8.3",
     "grunt-preprocessor": "^0.4.0",
     "grunt-push-release": "^0.1.1",
-    "izi-js": "^1.6.0",
+    "izi-js": "gejgalis/izi-js#master",
     "load-grunt-configs": "^0.4.0",
     "load-grunt-tasks": "^0.6.0",
-    "vue": "^0.11.4"
+    "vue": "^1.0.13"
   }
 }

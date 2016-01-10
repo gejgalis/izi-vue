@@ -24,82 +24,6 @@
 (function (global) {
     function umdFactory(Vue, izi) {
 
-Vue.component("izi-context", {
-
-    template: "<content></content>",
-
-    ready: function () {
-        var context;
-        var children = this.$el.children;
-        var beans = {};
-
-        for (var i = 0; i < children.length; i++) {
-            var child = children[i];
-            if (child && child.__vue__) {
-                beans[child.tagName.toLowerCase()] = child.__vue__;
-            }
-        }
-
-        console.log("[izi] baking beans: ", beans);
-        this.context = izi.bakeBeans(beans);
-
-        this.$parent.$on("izi:requestWire", this._onRequestWire);
-
-        if (this.$parent && this.$parent.$options && this.$parent.$options.inject) {
-            this._onRequestWire(this.$parent);
-        }
-    },
-
-    methods: {
-
-        getBean: function () {
-            return this.context.getBean.apply(this.context, arguments);
-        },
-
-        wire: function () {
-            return this.context.wire.apply(this.context, arguments);
-        },
-
-        _onRequestWire: function (target) {
-            for (var key in target.$options.inject) {
-                target.$add(key, izi.inject(target.$options.inject[key]));
-            }
-            console.log("[izi] injecting:", target.$options.inject, "to:", target);
-            this.wire(target);
-            return false;
-        }
-    }
-
-});
-function wire(target) {
-    if (target.$options.inject) {
-        target.$dispatch("izi:requestWire", target);
-    } else {
-        console.log("`inject` configuration not found on:", this);
-    }
-}
-
-Vue.iziAutowire = {
-    created: function () {
-        this.$once('hook:ready', function () {
-            wire(this);
-        });
-    }
-};
-
-Vue.component("izi-autowire", {
-    ready: function () {
-        wire(this.$parent);
-    }
-});
-/**
- * @requires izi-context.js
- * @requires izi-autowire.js
- */
-
-/**
- * @requires ioc/index.js
- */
 !function(module) {
     var frameworkName = "vue";
 
@@ -108,6 +32,76 @@ Vue.component("izi-autowire", {
     });
 
     izi = izi.newInstance(frameworkName);
+
+    izi.VuePlugin = function (Vue) {
+
+        Vue.mixin({
+            created: function () {
+                for (var prop in this.$options) {
+                    var injection = this.$options[prop];
+                    if (injection && injection.isIziInjection) {
+                        this[prop] = injection;
+                    }
+                }
+                this.$dispatch("izi.wireMe", this);
+            }
+        });
+
+        Vue.izi = {
+            dataInjector: function (target, prop, dependency) {
+                if (dependency && !dependency.__ob__) {
+                    new Vue({
+                        data: {
+                            dependency: dependency
+                        }
+                    });
+                }
+                target.$set(prop, dependency);
+            },
+
+            MainView: function (options) {
+                this.el = options.el;
+                this.component = options.component;
+                this.replace = options.replace || false;
+            }
+        };
+
+        Vue.izi.MainView.prototype = {
+
+            constructor: Vue.izi.MainView,
+
+            iziContext: function (context) {
+                this.context = context;
+                this.vueInstance = this.createVueInstance();
+            },
+
+            iziDestroy: function () {
+                this.vueInstance.$destroy(true);
+            },
+
+            createVueInstance: function () {
+                var context = this.context;
+
+                return new Vue({
+
+                    el: this.el,
+                    replace: this.replace,
+                    template: "<view-component></view-component>",
+
+                    components: {
+                        "view-component": this.component
+                    },
+
+                    events: {
+                        "izi.wireMe": function (child) {
+                            context.wire(child);
+                            return false;
+                        }
+                    }
+                });
+            }
+        }
+    };
 
 }(izi.module);
         return izi;

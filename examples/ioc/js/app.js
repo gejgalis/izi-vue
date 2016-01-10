@@ -1,50 +1,30 @@
 Vue.config.debug = true;
 
-new Vue({
-    el: "#app",
+Vue.use(izi.VuePlugin);
 
-    template: '' +
-    '<izi-context>' +
-    '    <some-model></some-model>' +
-    '</izi-context>' +
+var dataInjector = Vue.izi.dataInjector;
+var MainView = Vue.izi.MainView;
 
-    '<input type="text" v-model="model.foo">' +
-    '<div>By mixin:</div>'+
-    '<some-view-by-mixin></some-view-by-mixin>' +
-    '<div>By element:</div>' +
-    '<some-view-by-element></some-view-by-element>',
+var ChildComponent = Vue.extend({
+    model: izi.inject("AppModel").by(dataInjector),
+    template: "<div>Child: {{model.foo}}</div>"
+});
 
-    inject: {
-       model: "some-model"
-    },
-
+var AppComponent = Vue.extend({
+    model: izi.inject("AppModel").by(dataInjector),
+    template: '<div><input v-model="model.foo"> <child-component></child-component> </div>',
     components: {
-
-        "some-model": {
-            data: function () {
-                return {
-                    foo: "Foo Value!"
-                }
-            }
-        },
-
-        "some-view-by-mixin": {
-            mixins: [Vue.iziAutowire],
-            inject: {
-                "model": "some-model"
-            },
-            template: '<h1>model.foo = "{{model.foo}}"</h1>',
-            replace: true
-        },
-
-        "some-view-by-element": {
-            inject: {
-                "model": "some-model"
-            },
-            template: '' +
-            '<izi-autowire></izi-autowire>' +
-            '<h1>model.foo = "{{model.foo}}"</h1>',
-            replace: true
-        }
+        "child-component": ChildComponent
     }
+});
+
+var model = {foo: "Foo"};
+
+var ctx = izi.bakeBeans({
+    AppModel: model,
+    AppMainView: new MainView({
+        component: AppComponent,
+        el: "#app",
+        replace: false
+    })
 });
