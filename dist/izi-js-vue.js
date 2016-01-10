@@ -48,7 +48,7 @@
         });
 
         Vue.izi = {
-            dataInjector: function (target, prop, dependency) {
+            vueDataInjector: function (target, prop, dependency) {
                 if (dependency && !dependency.__ob__) {
                     new Vue({
                         data: {
