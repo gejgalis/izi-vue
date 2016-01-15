@@ -31,13 +31,11 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('compile', [
-        'concat_in_order',
-        'uglify'
+        'webpack'
     ]);
 
     grunt.registerTask('serve', [
-        'connect:server',
-        'watch'
+        'webpack-dev-server'
     ]);
 
     grunt.registerTask('test', [
