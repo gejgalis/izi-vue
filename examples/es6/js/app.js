@@ -3,7 +3,7 @@ import {izi, MainView} from "./common";
 import AppModel from "./AppModel";
 import AppComponent from "./AppComponent";
 
-var ctx = izi.bakeBeans({
+izi.bakeBeans({
 
     AppModel: new AppModel(),
 

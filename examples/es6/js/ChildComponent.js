@@ -1,8 +1,10 @@
-import {Vue, izi, vueDataInjector} from "./common";
+export default {
 
-export default Vue.extend({
-
-    model: izi.inject("AppModel").by(vueDataInjector),
+    iziInject: {
+        data: {
+            model: "AppModel"
+        }
+    },
 
     template: "<div>Child: {{model.foo}}</div>"
-});
+};

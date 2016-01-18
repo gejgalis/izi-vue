@@ -2,19 +2,26 @@ Vue.config.debug = true;
 
 Vue.use(izi.VuePlugin);
 
-var vueDataInjector = Vue.izi.vueDataInjector;
 var MainView = Vue.izi.MainView;
 
 var ChildComponent = Vue.extend({
 
-    model: izi.inject("AppModel").by(vueDataInjector),
+    iziInject: {
+        data: {
+            model: "AppModel"
+        }
+    },
 
     template: "<div>Child: {{model.foo}}</div>"
 });
 
 var AppComponent = Vue.extend({
 
-    model: izi.inject("AppModel").by(vueDataInjector),
+    iziInject: {
+        data: {
+            model: "AppModel"
+        }
+    },
 
     template: '<div><input v-model="model.foo"> <child-component></child-component> </div>',
 
