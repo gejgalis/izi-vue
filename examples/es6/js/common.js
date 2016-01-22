@@ -1,9 +1,9 @@
-import _Vue from "vue";
-import _izi from "../../../dist/izi-js-vue";
+import Vue from "vue";
+import izi from "../../../dist/izi-js-vue";
 
-_Vue.use(_izi.VuePlugin);
+Vue.use(izi.VuePlugin);
 
-export const Vue = _Vue;
-export const izi = _izi;
-export const vueDataInjector = _Vue.izi.vueDataInjector;
-export const MainView = _Vue.izi.MainView;
+const MainView = Vue.izi.MainView;
+const vueDataInjector = Vue.izi.vueDataInjector;
+
+export {Vue, izi, MainView, vueDataInjector};
