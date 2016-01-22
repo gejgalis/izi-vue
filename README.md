@@ -1,11 +1,12 @@
 IoC &amp; DI for Vue
---------------------
+====================
 
 This izi (as in 'easy') library will help you to organize your JavaScript code around Vue components.
 Using this tool you may easly introduce any of modern patterns like Flux, Redux or MV*.
 
 Usage
-=======
+-----
+
 1. Download package:
     ```
     npm install gejgalis/izi-js-vue#master --save
@@ -95,3 +96,36 @@ Usage
         })
     });
     ```
+
+Unit Test
+---------
+
+Proposed approach lets you execute unit tests for code not related to DOM on NodeJS. You may test faster all corner cases skipping heavy browser tests.
+
+```javascript
+import FooModel from "./FooModel";
+import FooController from "./FooController";
+
+describe("FooController", () => {
+
+    var model, controller;
+    
+    beforeEach(() => {
+        model = new FooModel();
+        
+        controller = new FooController();
+        controller.model = model;          // set needed dependencies
+    });
+    
+    it("should change foo to bar", () => {
+        // given
+        expect(model.foo).to.be("Foo");
+        
+        // when
+        controller.changeFooToBar();
+        
+        // then
+        expect(model.foo).to.be("Bar");
+    });
+});
+```
