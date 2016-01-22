@@ -8,7 +8,7 @@ Usage
 =======
 1. Download package:
     ```
-    npm install izi-js-vue --save
+    npm install gejgalis/izi-js-vue#master --save
     ```
 
 2. Install plugin in Vue and prepare your `common.js`:
@@ -41,17 +41,13 @@ Usage
     import {izi} from "./common";
     
     export default class FooController {
-    
-        // Using ES7 properties...
-        fooModel = izi.inject("FooModel");
-        
-        // ...otherwise:
+
         constructor() {
-            this.fooModel = izi.inject("FooModel");
+            this.model = izi.inject("FooModel");
         }
     
         changeFooToBar() {
-            this.fooModel.foo = "Bar";
+            this.model.foo = "Bar";
         }
     };
     ```
@@ -88,9 +84,9 @@ Usage
     
     izi.bakeBeans({
     
-        FooModel,
+        FooModel: new FooModel(),
         
-        FooController,
+        FooController: new FooController(),
     
         FooMainView: new MainView({
             component: FooComponent,
