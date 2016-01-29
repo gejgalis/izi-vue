@@ -65,10 +65,7 @@ module.exports = function (grunt) {
         'push-commit',
 
         // Publish to NPM
-        'push-publish',
-
-        // Convert `webjar/pom.template` to `webjar/pom.xml` and run `mvn clean deploy` in `webjar` directory
-        'maven-deploy'
+        'push-publish'
     ]);
 
     grunt.registerTask('maven-install', [
