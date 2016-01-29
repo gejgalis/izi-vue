@@ -1,22 +1,22 @@
-IoC &amp; DI for Vue
-====================
+izi IoC &amp; DI for Vue
+========================
 
 This izi (as in 'easy') library will help you to organize your JavaScript code around Vue components.
-Using this tool you may easly introduce any of modern patterns like Flux, Redux or MV*.
+Using this tool you may easily introduce any of modern patterns like Flux, Redux or MV*.
 
 Usage
 -----
 
 1. Download package:
     ```
-    npm install gejgalis/izi-js-vue#master --save
+    npm install izi-vue --save
     ```
 
 2. Install plugin in Vue and prepare your `common.js`:
 
     ```javascript
     import Vue from "vue";
-    import izi from "izi-js-vue";
+    import izi from "izi-vue";
     
     Vue.use(izi.VuePlugin);
     
@@ -62,7 +62,7 @@ Usage
             // injects regular instance of dependency accessible via: this.dependency...
             controller: "FooController",
         
-            data: { // inject dependencies specially prepared for data binding
+            data: { // injects dependencies specially prepared for data binding
                 model: "FooModel"
             }
         },
@@ -75,20 +75,18 @@ Usage
     };
     ```
 
-6. Create your IoC container:
+6. Create your IoC container `app.js`:
 
     ```javascript
     import {izi, MainView} from "./common";
     
     import FooModel from "./FooModel";
+    import FooController from "./FooController";
     import FooComponent from "./FooComponent";
-    
+
     izi.bakeBeans({
-    
-        FooModel: new FooModel(),
-        
-        FooController: new FooController(),
-    
+        FooModel,
+        FooController,
         FooMainView: new MainView({
             component: FooComponent,
             el: "#app",
@@ -100,7 +98,8 @@ Usage
 Unit Test
 ---------
 
-Proposed approach lets you execute unit tests for code not related to DOM on NodeJS. You may test faster all corner cases skipping heavy browser tests.
+Proposed approach lets you execute unit tests for code not related to DOM on NodeJS.
+You may test faster all corner cases skipping heavy browser tests.
 
 ```javascript
 import FooModel from "./FooModel";

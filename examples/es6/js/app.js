@@ -5,7 +5,7 @@ import AppComponent from "./AppComponent";
 
 izi.bakeBeans({
 
-    AppModel: new AppModel(),
+    AppModel,
 
     AppMainView: new MainView({
         component: AppComponent,

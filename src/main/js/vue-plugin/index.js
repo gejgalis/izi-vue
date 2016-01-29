@@ -1,4 +1,4 @@
-import izi from "izi-js";
+import izi from "izi-js/dist/izi-js-debug";
 import MainView from "./MainViewFactory";
 import vueDataInjector from "./vueDataInjectorFactory";
 import wireMeMixin from "./wireMeMixin";

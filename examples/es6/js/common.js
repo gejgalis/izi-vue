@@ -1,5 +1,5 @@
 import Vue from "vue";
-import izi from "../../../dist/izi-js-vue";
+import izi from "../../../dist/izi-vue";
 
 Vue.use(izi.VuePlugin);
 

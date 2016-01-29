@@ -1,8 +1,8 @@
 {
-  "name": "izi-js-vue",
+  "name": "izi-vue",
   "version": "1.0.0",
-  "description": "This is Vue framework implementation for izi-js ",
-  "main": "dist/izi-js-vue.js",
+  "description": "izi IoC & DI for Vue",
+  "main": "dist/izi-vue.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
