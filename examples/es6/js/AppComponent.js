@@ -1,6 +1,9 @@
+import {iziInjectMixin} from "./common";
 import ChildComponent from "./ChildComponent";
 
 export default {
+
+    mixins: [iziInjectMixin],
 
     iziInject: {
         data: {

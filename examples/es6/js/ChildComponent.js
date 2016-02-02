@@ -1,4 +1,8 @@
+import {iziInjectMixin} from "./common";
+
 export default {
+
+    mixins: [iziInjectMixin],
 
     iziInject: {
         data: {

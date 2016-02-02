@@ -7,7 +7,7 @@ izi.bakeBeans({
 
     AppModel,
 
-    AppMainView: new MainView({
+    AppMainView: izi.instantiate(MainView).withProps({
         component: AppComponent,
         el: "#app",
         replace: false

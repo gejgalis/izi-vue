@@ -1,4 +1,6 @@
-export default function (izi, vueDataInjector) {
+import izi from "../../../node_modules/izi-js/dist/izi-js-debug";
+
+export default function (vueDataInjector) {
     return {
         created: function () {
             unwrap$optionsIziInject(this.$options, izi, vueDataInjector);

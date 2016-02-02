@@ -2,7 +2,7 @@ var path = require("path");
 
 module.exports = {
     entryJS: {
-        "izi-vue": "./src/main/js/izi-vue"
+        "izi-vue": "./src/main/index"
     },
 
     loaders: [

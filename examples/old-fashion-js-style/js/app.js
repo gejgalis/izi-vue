@@ -1,10 +1,10 @@
-Vue.config.debug = true;
-
-Vue.use(izi.VuePlugin);
-
-var MainView = Vue.izi.MainView;
+var vueHelpers = izi.createVueHelpers(Vue);
+var MainView = vueHelpers.MainView;
+var iziInjectMixin = vueHelpers.iziInjectMixin;
 
 var ChildComponent = Vue.extend({
+
+    mixins: [iziInjectMixin],
 
     iziInject: {
         data: {
@@ -16,6 +16,8 @@ var ChildComponent = Vue.extend({
 });
 
 var AppComponent = Vue.extend({
+
+    mixins: [iziInjectMixin],
 
     iziInject: {
         data: {
@@ -36,7 +38,7 @@ var ctx = izi.bakeBeans({
 
     AppModel: model,
 
-    AppMainView: new MainView({
+    AppMainView: izi.instantiate(MainView).withProps({
         component: AppComponent,
         el: "#app",
         replace: false

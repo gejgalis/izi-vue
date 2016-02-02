@@ -12,17 +12,17 @@ Usage
     npm install izi-vue --save
     ```
 
+    This package includes `izi-js`. You don't need to download separate `izi-js` package.
+
 2. Install plugin in Vue and prepare your `common.js`:
 
     ```javascript
     import Vue from "vue";
     import izi from "izi-vue";
     
-    Vue.use(izi.VuePlugin);
+    const {MainView, iziInjectMixin} = izi.createVueHelpers(Vue);
     
-    const MainView = Vue.izi.MainView;
-    
-    export {Vue, izi, MainView}
+    export {Vue, izi, MainView, iziInjectMixin}
     // you may put here other libraries you want to use like LoDash etc...
     ```
 
@@ -56,10 +56,15 @@ Usage
 5. Create `FooComponent.js`:
 
     ```javascript
+    import {iziInjectMixin} from "./common";
+
     export default {
-    
+        // Mixin required for dependency injection
+        mixins: [iziInjectMixin],
+
+        // Dependency injection configuration
         iziInject: {
-            // injects regular instance of dependency accessible via: this.dependency...
+            // injects regular instance of dependency accessible via: this.controller...
             controller: "FooController",
         
             data: { // injects dependencies specially prepared for data binding
@@ -87,10 +92,11 @@ Usage
     izi.bakeBeans({
         FooModel,
         FooController,
-        FooMainView: new MainView({
+        FooMainView: izi.instantiate(MainView).withProps({
             component: FooComponent,
             el: "#app",
-            replace: false
+            replace: false,
+            proxyMethods: true // all methods from FooComponent will be proxied via FooMainView bean
         })
     });
     ```
