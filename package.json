@@ -1,6 +1,6 @@
 {
   "name": "izi-vue",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "izi IoC & DI for Vue",
   "main": "dist/izi-vue.js",
   "scripts": {
