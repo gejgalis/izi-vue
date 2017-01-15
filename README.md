@@ -95,7 +95,6 @@ Usage
         FooMainView: izi.instantiate(MainView).withProps({
             component: FooComponent,
             el: "#app",
-            replace: false,
             proxyMethods: true // all methods from FooComponent will be proxied via FooMainView bean
         })
     });

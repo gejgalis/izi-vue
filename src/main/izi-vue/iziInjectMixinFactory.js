@@ -5,7 +5,15 @@ export default function (vueDataInjector) {
         created: function () {
             unwrap$optionsIziInject(this.$options, izi, vueDataInjector);
             moveInjectionsToVueInstance(this);
-            this.$dispatch("izi.wireMe", this);
+            let $parent = this
+            let found = false
+            while ($parent && !found) {
+                if ($parent.__iziWire) {
+                    $parent.__iziWire(this)
+                    found = true
+                }
+                $parent = $parent.$parent
+            }
         }
     };
 }

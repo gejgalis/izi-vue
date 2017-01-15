@@ -2,16 +2,9 @@ export default function mainViewFactory(Vue) {
 
     return class MainView {
 
-        constructor({
-            el: el,
-            component: component,
-            replace: replace = false,
-            proxyMethods: proxyMethods = true
-            } = {}) {
-
+        constructor({el, component, proxyMethods = true} = {}) {
             this.el = el;
             this.component = component;
-            this.replace = replace;
             this.proxyMethods = proxyMethods;
         }
 
@@ -43,34 +36,24 @@ export default function mainViewFactory(Vue) {
             const el = this.el;
 
             if (typeof this.component === "function") {
-                return new (this.component.extend({
-
-                    el: function() {
-                        return el;
-                    },
-
-                    replace: this.replace,
-
-                    events: {
-                        "izi.wireMe"(child) {
-                            context.wire(child);
-                            return false;
+                let VueComponent = this.component.extend({
+                    methods: {
+                        __iziWire (child) {
+                            context.wire(child)
                         }
                     }
-                }));
+                });
+                return new VueComponent({el});
             } else {
                 const componentConfig = {};
-                const events = this.component.events || {};
-                events["izi.wireMe"] = function (child) {
-                    context.wire(child);
-                    return false;
-                };
-
 
                 Object.assign(componentConfig, this.component, {
                     el: this.el,
-                    replace: this.replace,
-                    events: events
+                    methods: Object.assign(componentConfig || {}, {
+                        __iziWire (child) {
+                            context.wire(child)
+                        }
+                    })
                 });
 
                 return new Vue(componentConfig);
@@ -102,7 +85,7 @@ function getMethodNames(obj) {
     for (var methodName in obj) {
         const method = obj[methodName];
 
-        if (typeof method === "function" && !/^_/.test(methodName) ) {
+        if (typeof method === "function" && !/^_/.test(methodName)) {
             methods.push(methodName);
         }
     }

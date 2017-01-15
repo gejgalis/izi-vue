@@ -40,7 +40,6 @@ var ctx = izi.bakeBeans({
 
     AppMainView: izi.instantiate(MainView).withProps({
         component: AppComponent,
-        el: "#app",
-        replace: false
+        el: "#app"
     })
 });

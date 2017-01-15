@@ -8,6 +8,6 @@ export default function vueDataInjectorFactory(Vue) {
                 }
             });
         }
-        target.$set(prop, dependency);
+        Vue.set(target, prop, dependency)
     }
 }
