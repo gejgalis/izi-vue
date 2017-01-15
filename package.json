@@ -39,5 +39,9 @@
     "vue": "^2.1.0",
     "webpack": "^1.12.11",
     "webpack-dev-server": "^1.14.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gejgalis/izi-vue.git"
   }
 }
