@@ -5,14 +5,35 @@ export default function (vueDataInjector) {
         created: function () {
             unwrap$optionsIziInject(this.$options, izi, vueDataInjector);
             moveInjectionsToVueInstance(this);
-            let $parent = this
-            let found = false
-            while ($parent && !found) {
-                if ($parent.__iziWire) {
-                    $parent.__iziWire(this)
-                    found = true
+            const parent = this.__iziFindParent()
+            if (parent) {
+                parent.__iziWire(this)
+            }
+        },
+
+        methods: {
+            __iziFindParent() {
+                let $parent = this;
+                let found = false;
+                while ($parent && !found) {
+                    if ($parent.__iziWire) {
+                        found = true;
+                        break;
+                    }
+                    $parent = $parent.$parent
                 }
-                $parent = $parent.$parent
+                if (found) {
+                    return $parent
+                } else {
+                    return null
+                }
+            }
+        },
+
+        beforeDestroy: function () {
+            const parent = this.__iziFindParent()
+            if (parent) {
+                parent.__iziDetach(this)
             }
         }
     };

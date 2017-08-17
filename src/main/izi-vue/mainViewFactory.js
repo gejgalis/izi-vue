@@ -40,6 +40,10 @@ export default function mainViewFactory(Vue) {
                     methods: {
                         __iziWire (child) {
                             context.wire(child)
+                        },
+
+                        __iziDetach (bean) {
+                            context.detachBean(bean)
                         }
                     }
                 });
