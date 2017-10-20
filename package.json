@@ -1,6 +1,6 @@
 {
   "name": "izi-vue",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "izi IoC & DI for Vue",
   "main": "dist/izi-vue.js",
   "scripts": {
@@ -32,7 +32,7 @@
     "grunt-preprocessor": "^0.4.0",
     "grunt-push-release": "^0.1.1",
     "grunt-webpack": "^1.0.18",
-    "izi-js": "1.7.2",
+    "izi-js": "1.7.3",
     "karma": "0.13.22",
     "load-grunt-configs": "^0.4.0",
     "load-grunt-tasks": "^0.6.0",
