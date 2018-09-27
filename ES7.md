@@ -1,4 +1,31 @@
-Planned ES7 improvements:
+Planned TS improvements:
+    const CONFIG_TOKEN = 'CONFIG_TOKEN'
+    const CONFIG_TOKEN = new InjectionToken() // uses UUID under the hood to avoid conflicts
+
+    @Module({
+        imports: [
+            EmailModule
+        ],
+        providers: [
+            FooService,
+            { provide: UserService, useClass: UserService },
+            { provide: CONFIG_TOKEN, useValue: config },
+            { provide: CONFIG_TOKEN, useFactory: context => config }
+        ]
+    })
+    @Component({
+        components: {
+            EmailModule
+        }
+    })
+    export default class UserModule extends Vue {
+        @Inject userService: UserService;
+        @Inject(OtherService) otherService: OtherService;
+        @Inject(CONFIG_TOKEN) config: Config;
+        @Inject(TRANSLATION_TOKEN) translations: Translation[];
+   
+    }
+
 
 `store/todosStoreFactory.js`
 

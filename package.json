@@ -44,5 +44,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/gejgalis/izi-vue.git"
+  },
+  "dependencies": {
+    "inversify": "^4.13.0",
+    "vue-property-decorator": "^7.0.0",
+    "vuex-class": "^0.3.1"
   }
 }
