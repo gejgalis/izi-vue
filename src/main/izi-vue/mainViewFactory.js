@@ -69,9 +69,11 @@ export default function mainViewFactory(Vue) {
             const methods = getMethodNames(vueInstance);
 
             methods.forEach(function (methodName) {
-                this[methodName] = function () {
-                    return vueInstance[methodName].apply(vueInstance, arguments);
-                };
+                if (!this[methodName]) {
+                    this[methodName] = function () {
+                        return vueInstance[methodName].apply(vueInstance, arguments);
+                    };
+                }
             }, this);
         }
     }
